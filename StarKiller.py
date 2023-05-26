@@ -208,7 +208,7 @@ class Starkiller():
     #   reimplement in a different way
     # A function that finds the total number of listings that match our item and divides the number
     # of items that are sold by the total number listed, giving us the sellthrough percentage
-    def chance_to_sell_alt(self):
+    def chance_to_sell(self):
         # Creating a list, then opening a file to feed the list its contents
         clothes_list = []
         with open('scraping\input.txt', 'r') as file:
@@ -258,10 +258,6 @@ class Starkiller():
             for element in main_content:
                     sold_amounts.append(element.get_text())
         
-        # NOTE: debugging            
-        print(listed_amounts)
-        print(sold_amounts)
-        
         # Splitting the lists 'listed_amounts' and 'sold_amounts'
         listed_amounts_split = []
         for element in listed_amounts:
@@ -303,7 +299,7 @@ class Starkiller():
 
 star = Starkiller()
 star.file_price_scraper_bin()
-star.chance_to_sell_alt()
+star.chance_to_sell()
 
 
 
