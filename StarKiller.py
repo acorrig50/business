@@ -204,87 +204,6 @@ class Starkiller():
       
     
     # _____Use_____
-    # NOTE: Under construction, may need to completely rework... delete once alt method is complete
-    # A function that finds the total number of listings that match our item and divides the number
-    # of items that are sold by the total number listed, giving us the sellthrough percentage
-    def chance_to_sell(self):
-        # Creating a list, then opening a file to feed the list its contents
-        clothes_list = []
-        with open('scraping\input.txt', 'r') as file:
-            clothes_list.append(file.read())
-        
-        # Turning the list into a string for modification, then return it BACK to
-        # list form to be used by the for loop holding the URL
-        to_string = ""
-        for word in clothes_list:
-            for letter in word:
-                to_string += letter
-
-        to_string = to_string.split("\n")
-
-        # Establish a list of URL's and sold URL's to get the number of total listings from the 
-        # default URL page and the total number sold from the sold URL page
-        url_list = []
-        sold_url_list = []    
-        for i in range(len(to_string)):
-            url = requests.get("https://www.ebay.com/sch/i.html?_from=R40&_nkw=" 
-                               + to_string[i] + "&_sacat=0&LH_TitleDesc=0&LH_BIN=1&LH_ItemCondition=4&rt=nc&_fsrp=1")
-            sold_url = requests.get("https://www.ebay.com/sch/i.html?_from=R40&_nkw="
-                                + to_string[i] +" &_sacat=0&LH_TitleDesc=0&LH_BIN=1&LH_ItemCondition=4&_fsrp=1&rt=nc&LH_Sold=1&LH_Complete=1")
-            url_list.append(url)   
-            sold_url_list.append(sold_url)
-        
-        # Establish the lists that will hold the info we scraped
-        listed = []
-        sold = []
-        
-        listed_string = ""
-        sold_string = ""
-        
-        # Loop through each URL in each of the lists, both unsold and sold, to find the information we want
-        
-        # NOTE: !!!! May need to take following for loops and nest them in one outter loop
-        #   Trying it currently, delete outtermost loop if it fails to work
-        
-        for i in range(len(url_list)):
-            
-            for url in url_list:
-                soup = BeautifulSoup(url.content, 'html.parser')
-                main_content = soup.find_all(attrs={'class':'srp-controls__count-heading'})
-                
-                # Loop through each element that bs4 grabbed and append it to the list
-                for element in main_content:
-                    listed_string += element.get_text()
-                    
-                    
-            
-            for url in sold_url_list:
-                soup = BeautifulSoup(url.content, 'html.parser')
-                main_content = soup.find_all(attrs={'class': 'srp-controls__count-heading'})
-                
-                for element in main_content:
-                    sold_string += element.get_text()
-                    
-            # Split the strings into lists
-            listed_split = listed_string.split(" ")
-            sold_split = sold_string.split(" ")
-            number_listed = amount_listed[0]
-            number_sold = amount_sold[0]
-            
-            print(amount_listed)
-            print(amount_sold)
-            
-            
-            
-            # Calculating and displaying the sell rate
-            # NOTE: Going to need a loop to print out stats for each item in the input file
-            # Put out of use for now...
-            """number_listed = int(listed_string[0])
-            number_sold = int(sold_string[0])
-            print("For the {}, {}% have sold out of {} items listed".format(
-                to_string[i],round((number_sold / number_listed),2), (number_listed)))"""
-       
-    # _____Use_____
     # NOTE: alt version of chance_to_sell, going to try and simplify the method and 
     #   reimplement in a different way
     # A function that finds the total number of listings that match our item and divides the number
@@ -352,9 +271,6 @@ class Starkiller():
         for element in sold_amounts:
             sold_amounts_split.append(element.split(' '))
         
-        print(listed_amounts_split)
-        print(sold_amounts_split)
-        
         # Now that we have both lists split and appended to a new list, we can now take the first
         #   element of each inner list, meaning we will have the total amount of listed items for 
         #   our searched item
@@ -372,6 +288,11 @@ class Starkiller():
         
         # Now we perform calculations and print them out for each item
         # NOTE: Where I left off
+        for i in range(len(to_string)):
+            print("_____{}_____".format(to_string[i]))
+            print("Amount listed: {} / Amount sold: {}".format(total_amounts_listed[i],total_amounts_sold[i]))
+            print("Turnover rate: {}".format(round(total_amounts_sold[i] / total_amounts_listed[i], 2)))
+        
         
     # _____Use_____
     # NOTE: Under construction
@@ -381,7 +302,7 @@ class Starkiller():
         pass   
 
 star = Starkiller()
-#star.file_price_scraper_bin()
+star.file_price_scraper_bin()
 star.chance_to_sell_alt()
 
 
