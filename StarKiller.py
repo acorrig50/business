@@ -298,9 +298,8 @@ class Starkiller():
         pass   
 
 star = Starkiller()
-star.file_price_scraper_bin()
-star.chance_to_sell()
-
+#star.file_price_scraper_bin()
+#star.chance_to_sell()
 
 
 
