@@ -1,2 +1,2 @@
 # business
-Scripts used to speed up my business workflow
+Scripts used to speed up my business workflow!
