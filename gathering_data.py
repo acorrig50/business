@@ -86,7 +86,9 @@ print(df.info())
 df['item_price'] = df['item_price'].apply(lambda x: x.strip('$'))
 df = df.astype({'item_price': 'float'})
 
-
 # Sorting by highest price
 highest_price = df.sort_values(by='item_price', ascending=False)
-print(highest_price)
+lowest_price = df.sort_values(by='item_price', ascending=True)
+
+# Exporting to excel file
+df.to_excel(r'scraping\project_godstar\excel_sheet.xlsx', index=False)
