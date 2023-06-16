@@ -9,6 +9,12 @@ url2 = 'https://www.ebay.com/sch/i.html?_from=R40&_nkw=womens+jeans&_sacat=0&_ud
 url3 = 'https://www.ebay.com/sch/i.html?_from=R40&_nkw=womens+jeans&_sacat=0&_udlo=25&LH_Sold=1&rt=nc&LH_BIN=1&_pgn=2'       # Same as second URL but items are not 'completed' so no best offers are included and auctions are exluded
 big_page_url = 'https://www.ebay.com/sch/i.html?_from=R40&_nkw=womens+jeans&_sacat=0&_udlo=25&LH_Sold=1&LH_BIN=1&rt=nc&_ipg=240&_pgn=1'
 
+# Establish a list of Big URLs to gather data from
+# NOTE: I'm leaving this note to designate this as the original version, going to make another file to try looping through the url list to gather data much more data
+big_url_list = []
+for i in range(1,42):
+    big_url_list.append('https://www.ebay.com/sch/i.html?_from=R40&_nkw=womens+jeans&_sacat=0&_udlo=25&LH_Sold=1&LH_BIN=1&rt=nc&_ipg=240&_pgn={}'.format(i))
+
 # HTML tags and other necessary details
 # class="s-item__title--tag"        # contains the date the item was sold
 # class="s-item__title"             # contains the name of the item
