@@ -12,7 +12,7 @@ regular_size_url = 'https://www.ebay.com/sch/i.html?_from=R40&_nkw=womens+jeans&
 big_url_list = []
 regular_url_list = []
 # NOTE: Change the params back to 1-30 after limit testing
-for i in range(1):
+for i in range(1,25):
     big_url_list.append('https://www.ebay.com/sch/i.html?_from=R40&_nkw=womens+jeans&_sacat=0&_udlo=25&LH_Sold=1&LH_BIN=1&rt=nc&_ipg=240&_pgn={}'.format(i))
     regular_url_list.append('https://www.ebay.com/sch/i.html?_from=R40&_nkw=womens+jeans&_sacat=0&LH_BIN=1&LH_Sold=1&rt=nc&_udlo=35&_ipg=60&_pgn={}'.format(i))
 
@@ -27,6 +27,7 @@ for i in range(1):
 names = []
 dates = []
 prices = []
+conditions = []
 # NOTE: Change regular_url_list back to big_url_list if it doesnt work properly
 for url in regular_url_list:
     # Coding below
@@ -55,6 +56,7 @@ for url in regular_url_list:
         'class': 's-item__title--tag'
     })
     
+ 
     
     # Getting the names for each item
     for name in item_names: 
@@ -69,41 +71,18 @@ for url in regular_url_list:
     # Getting the date for each item on the page                
     for date in other_dates_sold:
         dates.append(date.get_text())
+     
+    # Getting the condition for each item on the page 
+    # NOTE: THIS LINE BREAKS EVERYTHING WHY IDK
+    """for status in condition:
+        condition.append(status)"""
         
     names.pop(0) 
     prices.pop(0)
-    print(names)
-    print(prices)
-    print(dates)
     print(len(names))
     print(len(prices))
     print(len(dates))
-    
-    
-    """
-    #____________________________________________________________
-    # Getting the date sold for each item
-    date_sold_and_price_sold_for = []
-    for element in dates_sold:
-        date_sold_and_price_sold_for.append(element.get_text()) # Grabbing the first element, which is the date, from the dictionary and appending it to a list
 
-    print(date_sold_and_price_sold_for) 
-    # Now that we have the elements in a list, we can take the even elements, which are the dates, and odd elements, which are the prices
-    for i in range(len(date_sold_and_price_sold_for)):
-        if 'Sold' in date_sold_and_price_sold_for[i]:
-            dates.append(date_sold_and_price_sold_for[i])
-    
-    
-    
-    
-    #________________________________________________________________
-    """
-    
-    
-
-    
-    
-    
 
 # Now we have the lists established for the first page, lets turn it into a dataframe
 data = {
@@ -114,14 +93,15 @@ data = {
 
 # Creating and displaying the frame
 df = pd.DataFrame(data)
-print(df.head())
 print(df.info())
 
 # Stripping the dollar sign from item_price and changing its type to float
 df['item_price'] = df['item_price'].apply(lambda x: x.strip('$'))
 df = df.astype({'item_price': 'float'})
 
+print(df.info())
+print(df.to_string()) 
 
-# Sorting by highest price
-highest_price = df.sort_values(by='item_price', ascending=False)
-print(highest_price)
+
+
+
