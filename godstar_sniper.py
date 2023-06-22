@@ -16,8 +16,8 @@ def gather_stats(url_string):
     big_url_list = []
     regular_url_list = []
     
-    # NOTE: Change the params back to 1-30 after limit testing
-    for i in range(1,60):
+    # NOTE: Change the loop length to change the number of pages scraped, higher number = better sample size
+    for i in range(1,80):
         big_url_list.append('https://www.ebay.com/sch/i.html?_from=R40&_nkw={}&_sacat=0&_udlo=25&LH_Sold=1&LH_BIN=1&rt=nc&_ipg=240&_pgn={}'.format(url_string, i))
         regular_url_list.append('https://www.ebay.com/sch/i.html?_from=R40&_nkw={}&_sacat=0&LH_BIN=1&LH_Sold=1&rt=nc&_udlo=35&_ipg=60&_pgn={}'.format(url_string, i))
         
@@ -98,7 +98,8 @@ def gather_stats(url_string):
         'item_name': names,
         'item_price': prices,
         'date_sold': dates,
-        'item_condition': conditions
+        # Taking conditions away while searching in mens department, seems to be breaking 
+        #'item_condition': conditions
     }
 
     # Creating and displaying the frame
@@ -122,27 +123,11 @@ def gather_stats(url_string):
     high_rise_count = [1 for i in df['item_name'] if  'high' in df['item_name']]  
     boot_count = [1 for i in df['item_name'] if 'boot' in df['item_name']]  
 
-    df['high_rise'] = df.item_name.apply(lambda x: 1 if 'high' in x else 0)
-    df['boot_cut'] = df.item_name.apply(lambda x: 1 if 'boot' in x else 0)
-
-
     # Turning the frame into an excel file
     df.to_excel('{}.xlsx'.format(url_string))
-
-    #___EDA___
-
-    # Establish frames that are only boot and/or high rise
-    boot_cut_frame = df[df.boot_cut == 1]
-    high_rise_frame = df[df.high_rise ==1 ] 
-
-    # Get the percentage of jeans that are boot and divide by the total amount of listings
-    percentage_boot = len(boot_cut_frame) / len(df)
-    percentage_high = len(high_rise_frame) / len(df)
-    print("The percentage of jeans that are bootcut is {}".format(percentage_boot))
-    print("The percentage of jeans that are high-rise/high-waist is {}".format(percentage_high))
     
     
-# Run the main method
-gather_stats('mens dress shirts')
+# Run the main method with your category and specifications as the parameter, get a excel sheet back as output
+gather_stats('womens jeans')
     
 
