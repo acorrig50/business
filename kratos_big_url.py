@@ -125,9 +125,28 @@ def gather_stats(url_string):
 
     # Turning the frame into an excel file
     df.to_excel('{}.xlsx'.format(url_string))
+        
+
+# Method that streamlines the creation of charts
+# NOTE: Still in development
+def lookup_parameters():
+    amount = input("Enter the number of categories you wish to search: ")
+    categories = []
+    print("Enter your categories")
+    for i in range(int(amount)):
+        user_input = input("Category {}: ".format(i + 1))
+        categories.append(user_input)
     
-    
+    for category in categories:
+        gather_stats(category)
+
 # Run the main method with your category and specifications as the parameter, get a excel sheet back as output
-gather_stats('Mens Dress Shirts LSS')
+cat_list = ['Mens Jackets', 'Mens Jeans']
+for each in cat_list:
+    gather_stats(each)
+
+    
+        
+
     
 
