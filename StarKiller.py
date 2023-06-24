@@ -140,7 +140,7 @@ class Starkiller():
     def file_price_scraper_bin(self):
         # Creating a list, then opening a file to feed the list its contents
         clothes_list = []
-        with open('scraping\input.txt', 'r') as file:
+        with open('modules\input_clothes.txt', 'r') as file:
             clothes_list.append(file.read())
         
         # Turning the list into a string for modification, then return it BACK to
@@ -205,13 +205,13 @@ class Starkiller():
     
     # _____Use_____
     # NOTE: alt version of chance_to_sell, going to try and simplify the method and 
-    #   reimplement in a different way
+    #   reimplement in a different way, someday
     # A function that finds the total number of listings that match our item and divides the number
     # of items that are sold by the total number listed, giving us the sellthrough percentage
     def chance_to_sell(self):
         # Creating a list, then opening a file to feed the list its contents
         clothes_list = []
-        with open('scraping\input.txt', 'r') as file:
+        with open('modules\input_clothes.txt', 'r') as file:
             clothes_list.append(file.read())
         
         # Turning the list into a string for modification, then return it BACK to
@@ -273,14 +273,35 @@ class Starkiller():
         
         # _____Listed amounts loop_____
         total_amounts_listed = []
-        for outter_list in listed_amounts_split:
-           total_amounts_listed.append(int(outter_list[0]))
-        
+        cleaned_listed_amounts = []
+        for list in listed_amounts_split:
+            for inner_element in list:
+                inner_element = inner_element.replace(',', '').replace('+','')
+                cleaned_listed_amounts.append(inner_element)
+
 
         # _____Sold amounts loop_____
         total_amounts_sold = []
-        for outter_list in sold_amounts_split:
-            total_amounts_sold.append(int(outter_list[0]))
+        cleaned_sold_amounts = []
+        for list in sold_amounts_split:
+            for inner_element in list:
+                inner_element = inner_element.replace(',', '').replace('+','')
+                cleaned_sold_amounts.append(inner_element)
+        
+        
+        # IMPORTANT NOTE: Now that both lists and their elements are cleaned of commans 
+        #   plus signs, we need to grab only the numbers from the cleaned lists and
+        #   if it is a number, then we append it to the total_amounts_listed and 
+        #   total_amounts_sold 
+        for element in cleaned_listed_amounts:
+            if element.isdigit():
+                total_amounts_listed.append(int(element))
+            
+        for element in cleaned_sold_amounts:
+            if element.isdigit():
+                total_amounts_sold.append(int(element))
+        
+        
         
         # Now we perform calculations and print them out for each item
         # NOTE: Where I left off
@@ -288,7 +309,6 @@ class Starkiller():
             print("_____{}_____".format(to_string[i]))
             print("Amount listed: {} / Amount sold: {}".format(total_amounts_listed[i],total_amounts_sold[i]))
             print("Turnover rate: {}".format(round(total_amounts_sold[i] / total_amounts_listed[i], 2)))
-        
         
     # _____Use_____
     # NOTE: Under construction
@@ -298,8 +318,9 @@ class Starkiller():
         pass   
 
 star = Starkiller()
-#star.file_price_scraper_bin()
-#star.chance_to_sell()
+# Uncomment this back to see the average prices, otherwise you'll get turnover rate only
+# star.file_price_scraper_bin()
+star.chance_to_sell()
 
 
 
